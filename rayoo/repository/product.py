@@ -25,6 +25,35 @@ def get_all(db: Session):
     return products
 
 
+def destroy(id: int, db: Session):
+    product = db.query(models.Product).filter(models.Product.id == id)
+
+    if not product.first():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Product with id {id} not found",
+        )
+
+    product.delete(synchronize_session=False)
+    db.commit()
+    return "done"
+
+
+def update(id: int, request: schemas.Product, db: Session):
+    product = db.query(models.Product).filter(models.Product.id == id)
+
+    if not product.first():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Product with id {id} not found",
+        )
+
+    product.update(request)
+
+    db.commit()
+    return "updated"
+
+
 def show(id: int, db: Session):
     product = db.query(models.Product).filter(models.Product.id == id).first()
     if not product:
