@@ -20,6 +20,23 @@ def create(request: schemas.Product, db: Session = Depends(get_db)):
     return product.create(request, db)
 
 
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def destroy(
+    id: int,
+    db: Session = Depends(get_db),
+):
+    return product.destroy(id, db)
+
+
+@router.put("/{id}", status_code=status.HTTP_202_ACCEPTED)
+def update(
+    id: int,
+    request: schemas.Product,
+    db: Session = Depends(get_db),
+):
+    return product.update(id, request, db)
+
+
 @router.get("/{id}", response_model=schemas.ShowProduct)
 def show(id: int, db: Session = Depends(get_db)):
     return product.show(id, db)
