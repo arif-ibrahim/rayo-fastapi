@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter, status, Depends
 from sqlalchemy.orm import Session
 from .. import database, schemas
@@ -11,3 +12,7 @@ get_db = database.get_db
 @router.post('/', status_code=status.HTTP_201_CREATED)
 def create(request: schemas.Product, db: Session = Depends(get_db)):
     return product.create(request, db)
+
+@router.get('/',response_model=List[schemas.ShowProduct])
+def all(db: Session = Depends(get_db)):
+    return product.get_all(db)
