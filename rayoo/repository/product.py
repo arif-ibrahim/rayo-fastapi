@@ -1,6 +1,7 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from .. import schemas, models
+from pprint import pprint
 
 
 def create(request: schemas.Product, db: Session):
@@ -40,15 +41,15 @@ def destroy(id: int, db: Session):
 
 
 def update(id: int, request: schemas.Product, db: Session):
-    product = db.query(models.Product).filter(models.Product.id == id)
-
-    if not product.first():
+    product = db.query(models.Product).filter(models.Product.id == id).first()
+    if not product:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Product with id {id} not found",
         )
 
-    product.update(request)
+    for attr, value in request.dict().items():
+        setattr(product, attr, value)
 
     db.commit()
     return "updated"
