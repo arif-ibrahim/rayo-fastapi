@@ -2,6 +2,7 @@ from typing import List
 from pydantic import BaseModel
 from .constant.enum import Size
 
+
 class ProductBase(BaseModel):
     title: str
     price: float
@@ -12,11 +13,26 @@ class ProductBase(BaseModel):
     size: List[Size] = []
     description: str
 
+
 class Product(ProductBase):
-    class Config():
+    class Config:
         orm_mode = True
 
 
 class ShowProduct(ProductBase):
-    class Config():
+    class Config:
+        orm_mode = True
+
+
+class CartBase(BaseModel):
+    quantity: int
+
+
+class Cart(CartBase):
+    class Config:
+        orm_mode = True
+
+
+class ShowCart(CartBase):
+    class Config:
         orm_mode = True
