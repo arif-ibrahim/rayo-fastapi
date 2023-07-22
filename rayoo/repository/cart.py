@@ -5,9 +5,7 @@ from pprint import pprint
 
 
 def create(request: schemas.Cart, db: Session):
-    new_cart = models.Cart(
-        quantity=request.quantity,
-    )
+    new_cart = models.Cart(quantity=request.quantity, product_id=request.product_id)
     db.add(new_cart)
     db.commit()
     db.refresh(new_cart)
