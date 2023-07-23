@@ -26,7 +26,7 @@ class ShowProduct(ProductBase):
 
 class CartBase(BaseModel):
     quantity: int
-    product_id: int
+    product: Product
 
 
 class Cart(CartBase):
