@@ -4,6 +4,7 @@ from .constant.enum import Size
 
 
 class ProductBase(BaseModel):
+    id: int
     title: str
     price: float
     pictures: List[str] = []
@@ -25,6 +26,7 @@ class ShowProduct(ProductBase):
 
 
 class CartBase(BaseModel):
+    id: int
     quantity: int
 
 
