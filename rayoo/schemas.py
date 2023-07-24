@@ -26,14 +26,17 @@ class ShowProduct(ProductBase):
 
 class CartBase(BaseModel):
     quantity: int
-    product_id: int
 
 
 class Cart(CartBase):
+    product_id: int
+
     class Config:
         orm_mode = True
 
 
 class ShowCart(CartBase):
+    product: Product
+
     class Config:
         orm_mode = True
