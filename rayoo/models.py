@@ -21,7 +21,7 @@ class Product(Base):
     price = Column(Float)
     pictures = Column(ARRAY(String))
     status = Column(Boolean)
-    quantity = Column(Integer)
+    quantity_available = Column(Integer)
     color = Column(ARRAY(String))
     size = Column(ARRAY(SQLAlchemyEnum(Size)))
     description = Column(String)

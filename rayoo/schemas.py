@@ -4,12 +4,11 @@ from .constant.enum import Size
 
 
 class ProductBase(BaseModel):
-    id: int
     title: str
     price: float
     pictures: List[str] = []
     status: bool
-    quantity: int
+    quantity_available: int
     color: List[str] = []
     size: List[Size] = []
     description: str
@@ -21,12 +20,13 @@ class Product(ProductBase):
 
 
 class ShowProduct(ProductBase):
+    id: int
+
     class Config:
         orm_mode = True
 
 
 class CartBase(BaseModel):
-    id: int
     quantity: int
 
 
@@ -38,6 +38,7 @@ class Cart(CartBase):
 
 
 class ShowCart(CartBase):
+    id: int
     product: Product
 
     class Config:

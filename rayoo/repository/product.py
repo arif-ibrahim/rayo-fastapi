@@ -10,7 +10,7 @@ def create(request: schemas.Product, db: Session):
         price=request.price,
         pictures=request.pictures,
         status=request.status,
-        quantity=request.quantity,
+        quantity_available=request.quantity_available,
         color=request.color,
         size=request.size,
         description=request.description,
