@@ -23,7 +23,7 @@ class Product(Base):
     status = Column(Boolean)
     quantity_available = Column(Integer)
     color = Column(ARRAY(String))
-    size = Column(ARRAY(SQLAlchemyEnum(Size)))
+    size = Column(ARRAY(SQLAlchemyEnum(Size, name="product_size")))
     description = Column(String)
     cart = relationship("Cart", back_populates="product")
 
