@@ -13,6 +13,19 @@ from .constant.enum import Size
 from .database import Base
 
 
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String)
+    email = Column(String)
+    password_hash = Column(String)
+    first_name = Column(String)
+    last_name = Column(String)
+    address = Column(String)
+    phone_number = Column(String)
+
+
 class Product(Base):
     __tablename__ = "products"
 
