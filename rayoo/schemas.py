@@ -1,6 +1,28 @@
 from typing import List
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from .constant.enum import Size
+
+
+class UserBase(BaseModel):
+    username: str
+    email: str
+    password_hash: str
+    first_name: str
+    last_name: str
+    address: str
+    phone_number: str
+
+
+class User(UserBase):
+    class Config:
+        orm_mode = True
+
+
+class ShowUser(UserBase):
+    id: int
+
+    class Config:
+        orm_mode = True
 
 
 class ProductBase(BaseModel):
