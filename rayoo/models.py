@@ -45,6 +45,7 @@ class Cart(Base):
     __tablename__ = "carts"
 
     id = Column(Integer, primary_key=True, index=True)
+    session_id = Column(String, index=True)
     quantity = Column(Integer)
     product_id = Column(Integer, ForeignKey("products.id"))
     product = relationship("Product", back_populates="cart", uselist=False)

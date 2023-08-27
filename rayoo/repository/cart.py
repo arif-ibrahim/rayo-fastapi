@@ -2,10 +2,20 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from .. import schemas, models
 from pprint import pprint
+import secrets
+
+
+def generate_session_id():
+    token = secrets.token_hex(16)
+    print(token)
+    return token
 
 
 def create(request: schemas.Cart, db: Session):
-    new_cart = models.Cart(quantity=request.quantity, product_id=request.product_id)
+    session_id = generate_session_id()
+    new_cart = models.Cart(
+        quantity=request.quantity, product_id=request.product_id, session_id=session_id
+    )
     db.add(new_cart)
     db.commit()
     db.refresh(new_cart)
