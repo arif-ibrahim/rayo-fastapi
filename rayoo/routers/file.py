@@ -3,37 +3,48 @@ from fastapi import APIRouter, UploadFile, Request, File
 from fastapi.responses import FileResponse
 import os
 import base64
+import uuid
+import time
 
 
 router = APIRouter(prefix="/file", tags=["Files"])
 
 
+def get_file_path(file_name):
+    base_directory = os.path.dirname(os.path.abspath(__file__))
+    upload_dir = os.path.join(
+        os.path.abspath(os.path.join(base_directory, "..")), "files"
+    )
+
+    file_path = os.path.join(upload_dir, file_name)
+
+    return file_path
+
+
+def generate_unique_filename(file_extension):
+    timestamp = int(time.time() * 1000)
+    unique_id = str(uuid.uuid4().hex)
+    return f"{timestamp}_{unique_id}.{file_extension}"
+
+
 @router.get("/images/{image_name}")
 async def get_image(image_name: str):
-    base_directory = os.path.dirname(os.path.abspath(__file__))
-    images_directory = os.path.join(base_directory, "images")
-
-    image_path = os.path.join(images_directory, image_name)
+    image_path = get_file_path(image_name)
     if os.path.exists(image_path):
         return FileResponse(image_path)
     else:
         return {"error": "Image not found"}
 
 
-@router.post("/dynamic")
-def dynamic(request: Request, file: UploadFile = File()):
-    data = file.file.read()
-    print(type(data))
+@router.post("/upload/")
+async def upload_file(file: UploadFile):
+    if file.filename:
+        file_extension = file.filename.split(".")[-1]
+        unique_filename = generate_unique_filename(file_extension)
+        file_path = get_file_path(unique_filename)
+        with open(file_path, "wb") as f:
+            f.write(file.file.read())
 
-    base_directory = os.path.dirname(os.path.abspath(__file__))
-    grandparent_directory = os.path.abspath(os.path.join(base_directory, ".."))
-    images_directory = os.path.join(grandparent_directory, "files")
-    image_path = os.path.join(images_directory, "saved_")
+        return {"message": "File uploaded successfully", "filename": unique_filename}
 
-    with open(image_path + file.filename, "wb") as f:
-        f.write(data)
-    file.file.close()
-
-    encoded_image = base64.b64encode(data).decode("utf-8")
-
-    return encoded_image
+    return {"message": "File not uploaded"}
