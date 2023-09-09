@@ -1,6 +1,6 @@
 from typing import List
 from pydantic import BaseModel, Field
-from .constant.enum import Size
+from .constant.enum import Size, OrderStatus
 
 
 class UserBase(BaseModel):
@@ -66,3 +66,25 @@ class ShowCart(CartBase):
 
     class Config:
         orm_mode = True
+
+
+class OrderItem(BaseModel):
+    product_id: int
+    color: str
+    quantity: int
+
+
+class OrderBase(BaseModel):
+    total_unit: int
+    sub_total: float
+    total_amount: float
+    order_items: List[OrderItem]
+    customer_name: str
+    customer_phone: str
+    address: str
+    status: OrderStatus
+
+
+class Order(OrderBase):
+    class Config:
+        orm_mode: True

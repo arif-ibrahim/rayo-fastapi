@@ -2,7 +2,6 @@ from typing import List
 from fastapi import APIRouter, UploadFile, Request, File
 from fastapi.responses import FileResponse
 import os
-import base64
 import uuid
 import time
 
@@ -44,7 +43,6 @@ async def upload_file(file: UploadFile):
         file_path = get_file_path(unique_filename)
         with open(file_path, "wb") as f:
             f.write(file.file.read())
-
         return {"message": "File uploaded successfully", "filename": unique_filename}
 
     return {"message": "File not uploaded"}
