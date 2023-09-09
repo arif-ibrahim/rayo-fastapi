@@ -62,6 +62,7 @@ class Cart(CartBase):
 class ShowCart(CartBase):
     id: int
     product: Product
+    session_id: str
 
     class Config:
         orm_mode = True
