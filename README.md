@@ -1,8 +1,3 @@
-# rayo-fastapi
-## python3 -m venv .venv
-### pip install -r requirements.txt
-
-
 ## Setup
 
 Make sure to create virtual environment and active it:
